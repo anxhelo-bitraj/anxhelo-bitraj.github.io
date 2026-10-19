@@ -1,6 +1,6 @@
 # anxhelo-bitraj.github.io
 
-My personal links page: GitHub, LinkedIn, email, WhatsApp and a "Save contact" card, all on one page.
+My personal links page: GitHub, LinkedIn, CV, email, WhatsApp and a "Save contact" card, all on one page.
 
 **Live at https://anxhelo-bitraj.github.io**
 
@@ -10,9 +10,10 @@ It's a single static HTML file served free by [GitHub Pages](https://pages.githu
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole page: HTML, CSS and a little JS for the share buttons |
+| `index.html` | The whole page: HTML, CSS and a little JS for the share/copy buttons |
 | `photo.jpg` | Profile photo (600×600). Also used as the favicon and the link-preview image |
-| `icons/` | The GitHub, LinkedIn, Outlook and WhatsApp icons |
+| `Angelo_Bitraj_CV.pdf` | My CV, opened by the CV button |
+| `icons/` | The GitHub, LinkedIn, CV, Outlook and WhatsApp icons |
 | `contact.vcf` | vCard 3.0 contact card with the photo embedded. The "Save contact" button downloads it |
 | `tools/make_vcard.py` | Rebuilds `contact.vcf` from the details at the top of the script |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are, without running Jekyll |
@@ -35,6 +36,23 @@ It's a single static HTML file served free by [GitHub Pages](https://pages.githu
    git push
    ```
 6. Wait about a minute and refresh https://anxhelo-bitraj.github.io. If you still see the old version, hard-refresh with Cmd+Shift+R.
+
+## Updating the CV
+
+Replace `Angelo_Bitraj_CV.pdf` with the new PDF, keeping **exactly the same filename**. Then commit and push. The button, the download link and anyone's saved link keep working because the URL stays the same: https://anxhelo-bitraj.github.io/Angelo_Bitraj_CV.pdf
+
+Everything in this repo is public, so check a new CV has nothing in it you wouldn't post online, such as a home address or date of birth. Removing something from git history later is a lot harder than leaving it out.
+
+## The small button on the right of each row
+
+| Row | Button | What it does |
+| --- | --- | --- |
+| GitHub, LinkedIn | Share ↑ | Phone: opens the share sheet (AirDrop, WhatsApp, Messages…). Computer: copies the link |
+| CV | Download ↓ | Downloads the PDF (tapping the row itself opens it in the browser) |
+| Email | Copy | Copies the address, for people whose computer has no mail app set up |
+| WhatsApp | Copy | Copies the phone number, for a normal call or text instead of WhatsApp |
+
+Each button is set with `data-action="share"` or `data-action="copy" data-copy="text to copy"`. To remove one, delete its `<button class="action">…</button>`.
 
 ## Adding a new link
 

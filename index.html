@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Angelo Bitraj · Graduate Software Engineer</title>
-  <meta name="description" content="Angelo Bitraj, Graduate Software Engineer. GitHub, LinkedIn, email and WhatsApp in one place.">
+  <meta name="description" content="Angelo Bitraj, Graduate Software Engineer. CV, GitHub, LinkedIn, email and WhatsApp in one place.">
   <link rel="canonical" href="https://anxhelo-bitraj.github.io/">
   <meta name="theme-color" content="#ffffff">
 
@@ -28,11 +28,14 @@
       --page: #f6f4f1;
       --card-mid: #e2ded8;
       --card: #d7cebf;
-      --btn: #e7e0d3;
-      --btn-hover: #ede7dd;
-      --ink: #1f1e1c;
+      --ink: #1d1d1f;
       --ink-2: #34322e;
-      --muted: #7d766b;
+      --muted: #6e6a63;
+      --glass: linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .30));
+      --glass-hover: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .42));
+      --glass-edge: rgba(255, 255, 255, .75);
+      --spring: cubic-bezier(.34, 1.56, .64, 1);
+      --ui-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       color-scheme: light;
     }
 
@@ -61,10 +64,35 @@
       background: linear-gradient(180deg, #fff 0, #fff 190px, var(--card-mid) 310px, var(--card) 400px, var(--card) 100%);
       box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 10px 40px rgba(60, 50, 30, .07);
     }
+    .card > :not(.ambient) {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Soft drifting light behind the buttons, so the frosted glass has something to blur */
+    .ambient {
+      position: absolute;
+      inset: 330px 0 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .ambient span {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(42px);
+      will-change: transform;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .ambient span:nth-child(1) { width: 240px; height: 240px; left: -70px; top: 40px; background: #fbf3e8; opacity: .9; }
+    .ambient span:nth-child(2) { width: 260px; height: 260px; right: -90px; top: 200px; background: #bda789; opacity: .55; animation-duration: 24s; animation-delay: -8s; }
+    .ambient span:nth-child(3) { width: 220px; height: 220px; left: 60px; top: 420px; background: #f6ece0; opacity: .8; animation-duration: 28s; animation-delay: -14s; }
+    .ambient span:nth-child(4) { width: 160px; height: 160px; right: 10px; top: 20px; background: #cfd6dc; opacity: .45; animation-duration: 30s; animation-delay: -4s; }
+    @keyframes drift {
+      to { transform: translate3d(46px, -36px, 0) scale(1.12); }
+    }
 
     /* Photo that fades into the card */
     .hero {
-      position: relative;
       height: 318px;
       margin: 0 -14px;
     }
@@ -87,7 +115,6 @@
     }
 
     h1 {
-      position: relative;
       margin: 0;
       font-size: 40px;
       font-weight: 500;
@@ -96,47 +123,92 @@
       text-align: center;
     }
     .tagline {
-      margin: 8px 0 36px;
+      margin: 8px 0 32px;
       font-size: 17px;
       font-weight: 500;
       color: var(--ink-2);
       text-align: center;
     }
 
-    /* Link buttons */
+    /* Link buttons: frosted glass capsules */
     .links {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       margin: 0;
       padding: 0;
       list-style: none;
     }
-    .link { position: relative; }
-    .link > a {
+    .link {
+      position: relative;
+      animation: rise .7s cubic-bezier(.2, .8, .2, 1) backwards;
+      animation-delay: calc(var(--i, 0) * 70ms + 150ms);
+    }
+    .link:nth-child(2) { --i: 1; }
+    .link:nth-child(3) { --i: 2; }
+    .link:nth-child(4) { --i: 3; }
+    .link:nth-child(5) { --i: 4; }
+    .link:nth-child(6) { --i: 5; }
+    .link:nth-child(7) { --i: 6; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px) scale(.98); }
+    }
+
+    .link > a:not(.action) {
+      position: relative;
       display: flex;
       align-items: center;
       min-height: 64px;
       padding: 8px 56px 8px 8px;
+      border: 1px solid var(--glass-edge);
       border-radius: 999px;
-      background: var(--btn);
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      backdrop-filter: blur(20px) saturate(170%);
       color: var(--ink);
+      font-family: var(--ui-font);
       text-decoration: none;
-      box-shadow: 0 1px 2px rgba(60, 50, 30, .06);
-      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .95),
+        inset 0 -1px 0 rgba(255, 255, 255, .25),
+        0 1px 2px rgba(60, 45, 25, .06),
+        0 10px 28px -12px rgba(60, 45, 25, .28);
+      transition: transform .5s var(--spring), box-shadow .3s ease, background .3s ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    .link > a:hover {
-      background: var(--btn-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(60, 50, 30, .10);
+    /* Specular highlight that follows the pointer */
+    .link > a:not(.action)::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(180px circle at var(--mx, 50%) var(--my, -60%), rgba(255, 255, 255, .7), transparent 60%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
     }
-    .link > a:active { transform: scale(.99); }
+    .link > a:not(.action):hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 #fff,
+        inset 0 -1px 0 rgba(255, 255, 255, .3),
+        0 2px 4px rgba(60, 45, 25, .06),
+        0 18px 36px -14px rgba(60, 45, 25, .35);
+    }
+    .link > a:not(.action):hover::after { opacity: 1; }
+    .link > a:not(.action):active {
+      transform: scale(.97);
+      transition-duration: .12s;
+    }
+
     .link img {
       flex: none;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       object-fit: cover;
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .85), 0 3px 8px rgba(40, 30, 15, .16);
     }
     .link .text {
       flex: 1;
@@ -145,7 +217,8 @@
     .label {
       display: block;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 600;
+      letter-spacing: -.01em;
     }
     .sub {
       display: flex;
@@ -153,26 +226,41 @@
       justify-content: center;
       gap: 5px;
       margin-top: 2px;
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--muted);
     }
-    .more {
+
+    /* Small glass button on the right of a row: share, copy or download */
+    .action {
       position: absolute;
       top: 50%;
       right: 12px;
+      z-index: 1;
       display: grid;
       place-items: center;
       width: 36px;
       height: 36px;
-      border: 0;
+      border: 1px solid rgba(255, 255, 255, .8);
       border-radius: 50%;
-      background: transparent;
-      color: #4a4741;
+      background: rgba(255, 255, 255, .45);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: var(--ink);
+      box-shadow: inset 0 1px 0 #fff, 0 2px 6px rgba(40, 30, 15, .10);
       cursor: pointer;
       transform: translateY(-50%);
-      transition: background .15s;
+      transition: transform .45s var(--spring), background .2s ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    .more:hover { background: rgba(0, 0, 0, .06); }
+    .action:hover {
+      background: rgba(255, 255, 255, .85);
+      transform: translateY(-50%) scale(1.08);
+    }
+    .action:active {
+      transform: translateY(-50%) scale(.9);
+      transition-duration: .1s;
+    }
+    .action svg { display: block; }
 
     a:focus-visible, button:focus-visible {
       outline: 2px solid var(--ink);
@@ -181,32 +269,43 @@
 
     footer {
       margin-top: auto;
-      padding-top: 64px;
+      padding-top: 56px;
       font-size: 13px;
       color: var(--muted);
       text-align: center;
     }
 
+    /* iOS-style HUD for "Copied" feedback */
     .toast {
       position: fixed;
       left: 50%;
-      bottom: 28px;
-      padding: 10px 18px;
+      bottom: calc(28px + env(safe-area-inset-bottom));
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px 11px 14px;
+      border: 1px solid rgba(255, 255, 255, .14);
       border-radius: 999px;
-      background: #1f1e1c;
+      background: rgba(28, 28, 30, .72);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
       color: #fff;
+      font-family: var(--ui-font);
       font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 8px);
-      transition: opacity .2s, transform .2s;
+      transform: translate(-50%, 12px) scale(.96);
+      transition: opacity .25s ease, transform .45s var(--spring);
     }
     .toast.show {
       opacity: 1;
-      transform: translate(-50%, 0);
+      transform: translate(-50%, 0) scale(1);
     }
 
-    /* Phones: the card becomes the whole screen, like the Linktree app */
+    /* Phones: the card becomes the whole screen */
     @media (max-width: 480px) {
       body { padding: 0; background: var(--card); }
       .card {
@@ -218,12 +317,14 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; }
+      *, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
   <main class="card">
+    <div class="ambient" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
     <!-- ================= EDIT YOUR DETAILS HERE ================= -->
     <div class="hero">
       <img src="photo.jpg" alt="Photo of Angelo Bitraj" width="600" height="600">
@@ -232,14 +333,20 @@
     <h1>Angelo Bitraj</h1>
     <p class="tagline">Graduate Software Engineer</p>
 
+    <!--
+      The small button on the right of each row does one thing, chosen with data-action:
+        data-action="share"    phone: opens the share sheet for the link; computer: copies the link
+        data-action="copy"     copies the text in data-copy (e.g. email address or phone number)
+        a plain <a download>   downloads the file
+    -->
     <ul class="links">
       <li class="link">
         <a href="https://github.com/anxhelo-bitraj" target="_blank" rel="noopener noreferrer">
           <img src="icons/github.svg" alt="" width="48" height="48">
           <span class="text"><span class="label">GitHub</span></span>
         </a>
-        <button class="more" type="button" data-share aria-label="Share GitHub link">
-          <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg>
+        <button class="action" type="button" data-action="share" aria-label="Share GitHub link" title="Share">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M8 11H6.5A1.5 1.5 0 0 0 5 12.5v7A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5H16"/></svg>
         </button>
       </li>
 
@@ -248,9 +355,22 @@
           <img src="icons/linkedin.webp" alt="" width="48" height="48">
           <span class="text"><span class="label">LinkedIn</span></span>
         </a>
-        <button class="more" type="button" data-share aria-label="Share LinkedIn link">
-          <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg>
+        <button class="action" type="button" data-action="share" aria-label="Share LinkedIn link" title="Share">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M8 11H6.5A1.5 1.5 0 0 0 5 12.5v7A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5H16"/></svg>
         </button>
+      </li>
+
+      <li class="link">
+        <a href="Angelo_Bitraj_CV.pdf" target="_blank" rel="noopener">
+          <img src="icons/cv.svg" alt="" width="48" height="48">
+          <span class="text">
+            <span class="label">CV</span>
+            <span class="sub">View or download · PDF</span>
+          </span>
+        </a>
+        <a class="action" href="Angelo_Bitraj_CV.pdf" download="Angelo_Bitraj_CV.pdf" aria-label="Download CV" title="Download">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M5 20h14"/></svg>
+        </a>
       </li>
 
       <li class="link">
@@ -258,14 +378,11 @@
           <img src="icons/outlook.webp" alt="" width="48" height="48">
           <span class="text">
             <span class="label">Email</span>
-            <span class="sub">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>
-              Email · angelobitraj@outlook.com
-            </span>
+            <span class="sub">angelobitraj@outlook.com</span>
           </span>
         </a>
-        <button class="more" type="button" data-share aria-label="Share email address">
-          <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg>
+        <button class="action" type="button" data-action="copy" data-copy="angelobitraj@outlook.com" data-done="Email copied" aria-label="Copy email address" title="Copy">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg>
         </button>
       </li>
 
@@ -273,10 +390,13 @@
         <!-- wa.me needs the number with country code, digits only: +44 7447 705513 -> 447447705513 -->
         <a href="https://wa.me/447447705513" target="_blank" rel="noopener noreferrer">
           <img src="icons/whatsapp.webp" alt="" width="48" height="48">
-          <span class="text"><span class="label">WhatsApp</span></span>
+          <span class="text">
+            <span class="label">WhatsApp</span>
+            <span class="sub">+44 7447 705513</span>
+          </span>
         </a>
-        <button class="more" type="button" data-share aria-label="Share WhatsApp link">
-          <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg>
+        <button class="action" type="button" data-action="copy" data-copy="+44 7447 705513" data-done="Number copied" aria-label="Copy phone number" title="Copy">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg>
         </button>
       </li>
 
@@ -288,9 +408,6 @@
             <span class="sub">Add me to your phone's contacts</span>
           </span>
         </a>
-        <button class="more" type="button" data-share aria-label="Share contact card">
-          <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg>
-        </button>
       </li>
     </ul>
     <!-- ================= END OF YOUR DETAILS ================= -->
@@ -298,43 +415,73 @@
     <footer>© Angelo Bitraj</footer>
   </main>
 
-  <div class="toast" role="status" aria-live="polite"></div>
+  <div class="toast" role="status" aria-live="polite">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+    <span></span>
+  </div>
 
   <script>
     const toast = document.querySelector('.toast');
+    const toastText = toast.querySelector('span');
+    const isTouch = matchMedia('(pointer: coarse)').matches;
     let toastTimer;
 
     function showToast(message) {
-      toast.textContent = message;
+      toastText.textContent = message;
       toast.classList.add('show');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
     }
 
-    // Use the phone's native share sheet when there is one, otherwise copy to the clipboard.
-    async function share(title, value, isUrl) {
-      const data = isUrl ? { title, url: value } : { title, text: value };
-      if (navigator.share) {
-        try { await navigator.share(data); } catch (_) { /* share sheet closed */ }
-        return;
-      }
+    // Older or locked-down browsers block the Clipboard API; a hidden textarea still works there.
+    function legacyCopy(text) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+      document.body.appendChild(area);
+      area.select();
+      const copied = document.execCommand('copy');
+      area.remove();
+      return copied;
+    }
+
+    async function copy(text, message) {
       try {
-        await navigator.clipboard.writeText(value);
-        showToast(isUrl ? 'Link copied' : 'Copied');
+        await navigator.clipboard.writeText(text);
+        showToast(message);
       } catch (_) {
-        window.prompt('Copy this:', value);
+        if (legacyCopy(text)) showToast(message);
+        else window.prompt('Copy this:', text);
       }
     }
 
-    document.querySelectorAll('[data-share]').forEach((button) => {
+    // Phones get the native share sheet; computers get the link copied, which is what people expect there.
+    async function share(title, url) {
+      if (isTouch && navigator.share) {
+        try { await navigator.share({ title, url }); } catch (_) { /* share sheet closed */ }
+        return;
+      }
+      copy(url, 'Link copied');
+    }
+
+    document.querySelectorAll('[data-action]').forEach((button) => {
       button.addEventListener('click', () => {
         const link = button.closest('.link').querySelector('a');
-        const title = link.querySelector('.label').textContent;
-        if (link.protocol === 'mailto:') {
-          share(title, link.href.slice('mailto:'.length), false);
+        if (button.dataset.action === 'copy') {
+          copy(button.dataset.copy, button.dataset.done || 'Copied');
         } else {
-          share(title, link.href, true);
+          share(link.querySelector('.label').textContent, link.href);
         }
+      });
+    });
+
+    // Move the glass highlight with the pointer
+    document.querySelectorAll('.link > a:not(.action)').forEach((link) => {
+      link.addEventListener('pointermove', (event) => {
+        const box = link.getBoundingClientRect();
+        link.style.setProperty('--mx', `${event.clientX - box.left}px`);
+        link.style.setProperty('--my', `${event.clientY - box.top}px`);
       });
     });
   </script>
