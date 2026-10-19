@@ -1,0 +1,7 @@
+# QR codes are generated locally and not published
+qr.png
+qr.svg
+
+# macOS and editor files
+.DS_Store
+.claude/
