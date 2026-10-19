@@ -62,27 +62,6 @@
       box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 10px 40px rgba(60, 50, 30, .07);
     }
 
-    /* Round icon buttons in the top corners */
-    .corner {
-      position: absolute;
-      top: 16px;
-      z-index: 2;
-      display: grid;
-      place-items: center;
-      width: 40px;
-      height: 40px;
-      border: 0;
-      border-radius: 50%;
-      background: transparent;
-      color: #111;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background .15s;
-    }
-    .corner:hover { background: rgba(0, 0, 0, .06); }
-    .corner.left { left: 14px; }
-    .corner.right { right: 14px; }
-
     /* Photo that fades into the card */
     .hero {
       position: relative;
@@ -245,17 +224,6 @@
 </head>
 <body>
   <main class="card">
-    <a class="corner left" href="contact.vcf" type="text/vcard" aria-label="Save contact" title="Save contact">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="10" cy="8" r="4"/><path d="M2.5 20.5c.8-3.6 3.9-6 7.5-6 1.4 0 2.7.4 3.8 1"/><path d="M19 14v7M15.5 17.5h7"/>
-      </svg>
-    </a>
-    <button class="corner right" type="button" data-share-page aria-label="Share this page" title="Share">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M8 11H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-2"/>
-      </svg>
-    </button>
-
     <!-- ================= EDIT YOUR DETAILS HERE ================= -->
     <div class="hero">
       <img src="photo.jpg" alt="Photo of Angelo Bitraj" width="600" height="600">
@@ -357,10 +325,6 @@
         window.prompt('Copy this:', value);
       }
     }
-
-    document.querySelector('[data-share-page]').addEventListener('click', () => {
-      share(document.title, document.querySelector('link[rel=canonical]').href, true);
-    });
 
     document.querySelectorAll('[data-share]').forEach((button) => {
       button.addEventListener('click', () => {
