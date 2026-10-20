@@ -4,7 +4,7 @@ My personal links page: GitHub, LinkedIn, CV, email, WhatsApp and a "Save contac
 
 **Live at https://anxhelo-bitraj.github.io**
 
-It's a single static HTML file served free by [GitHub Pages](https://pages.github.com/) straight from the `main` branch of this repo. There's no build step, framework or server. Every push to `main` goes live in about a minute.
+It's a small static site served free by [GitHub Pages](https://pages.github.com/) straight from the `main` branch of this repo: one HTML page plus its CSS and JS. There's no build step, framework or server. Every push to `main` goes live in about a minute.
 
 The page adapts to the screen:
 
@@ -18,7 +18,9 @@ Sizes scale smoothly in between. The page is marked `noindex`, so search engines
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole page: HTML, CSS and a little JS for the share/copy buttons |
+| `index.html` | The page content, plus your links in the "EDIT YOUR DETAILS HERE" block |
+| `style.css` | All the styling and the layouts for each screen size |
+| `app.js` | The share/copy buttons, the "Copied" message and the anti-framing check |
 | `photo.jpg` | Profile photo (600×600). Used for the favicon, the link-preview image and the contact card |
 | `photo-cutout.webp` | The same photo with the background removed. This is the one shown on the page |
 | `Angelo_Bitraj_CV.pdf` | My CV, opened by the CV button |
@@ -78,6 +80,30 @@ Save the new photo as `photo.jpg`: square, about 600×600, with your head near t
 ```
 
 That cuts you out of the background into `photo-cutout.webp` and re-embeds the photo in `contact.vcf`. It needs macOS (for subject lifting) and ImageMagick (`brew install imagemagick`). Check the page, then commit and push as above.
+
+## Security
+
+**The page**
+
+- **Content Security Policy** (the `<meta http-equiv="Content-Security-Policy">` tag, first in `<head>`). The browser only runs scripts and loads styles and images from this site. Inline scripts, other websites, plugins, forms and `<base>` tricks are all refused, so injected code can't run. That's why the CSS and JS live in their own files: **never add `<script>…</script>`, `<style>…</style>` or `onclick="…"` inside `index.html`**, because the policy will block them. Put code in `app.js` and styles in `style.css`.
+- **No third parties.** No Google Fonts, analytics, trackers or CDNs. The font is the device's own (SF Pro on Apple devices), and every file comes from this repo.
+- **No referrer.** Sites you link to aren't told the visitor came from here.
+- **Anti-framing.** `app.js` refuses to show the page inside another site's frame, which blocks clickjacking and fake-page tricks.
+- **HTTPS only.** GitHub enforces HTTPS, and `github.io` is on browsers' built-in HTTPS-only (HSTS preload) list.
+- **noindex.** The page stays out of search results.
+
+**The repo**
+
+- A ruleset called **Protect main** blocks force-pushes and deleting `main`, so the site's history can't be wiped or rewritten by accident. Normal `git push` still works.
+- Issues, wiki and projects are switched off (not needed, and they invite spam).
+- Secret scanning and push protection are on, so GitHub blocks pushes that contain passwords or API keys.
+
+**Your account (do these yourself)**
+
+- Turn on two-factor authentication with a passkey or authenticator app: https://github.com/settings/security
+- Every so often, review apps with access to your account and remove ones you don't use: https://github.com/settings/applications
+
+**What can't be locked down:** anything the page shows or links to is public by design. That includes your email, phone number, CV and contact card. Anyone with the link can see and download them, and bots can scrape them.
 
 ## Why this repo is public
 
