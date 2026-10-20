@@ -79,6 +79,19 @@ Save the new photo as `photo.jpg`: square, about 600×600, with your head near t
 
 That cuts you out of the background into `photo-cutout.webp` and re-embeds the photo in `contact.vcf`. It needs macOS (for subject lifting) and ImageMagick (`brew install imagemagick`). Check the page, then commit and push as above.
 
+## Why this repo is public
+
+On a free GitHub account, GitHub Pages only serves sites from **public** repos. Making this repo private takes the site down, and the link and QR code stop working.
+
+To keep the code private with the site still up, you need **GitHub Pro** on the personal account `anxhelo-bitraj`:
+
+1. Check https://github.com/settings/billing shows *GitHub Pro*.
+2. Make the repo private: Settings → General → Danger Zone → Change visibility.
+3. Go to Settings → Pages. If GitHub turned Pages off, set the source back to `main` / `(root)`.
+4. Open https://anxhelo-bitraj.github.io to check it still loads.
+
+Even with a private repo, the site and every file it uses (CV, contact card, photo) stay publicly downloadable from the site itself. Making the repo private only hides the code, README and history.
+
 ## The QR code
 
 The QR code points to `https://anxhelo-bitraj.github.io`. That URL never changes when you edit the page, so printed QR codes keep working. The QR files are kept out of git on purpose (see `.gitignore`).
