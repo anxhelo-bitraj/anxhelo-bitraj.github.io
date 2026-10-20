@@ -36,6 +36,7 @@
       --glass-edge: rgba(255, 255, 255, .75);
       --spring: cubic-bezier(.34, 1.56, .64, 1);
       --ui-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --top-gap: 20px; /* space above the photo; bigger on phones to clear the notch / Dynamic Island */
       color-scheme: light;
     }
 
@@ -61,18 +62,52 @@
       padding: 0 14px 28px;
       border-radius: 28px;
       overflow: hidden;
-      background: linear-gradient(180deg, #fff 0, #fff 190px, var(--card-mid) 310px, var(--card) 400px, var(--card) 100%);
+      background: linear-gradient(180deg,
+        #fff 0,
+        #fff calc(190px + var(--top-gap)),
+        var(--card-mid) calc(310px + var(--top-gap)),
+        var(--card) calc(400px + var(--top-gap)),
+        var(--card) 100%);
       box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 10px 40px rgba(60, 50, 30, .07);
     }
-    .card > :not(.ambient) {
+    .card > :not(.ambient):not(.corner) {
       position: relative;
       z-index: 1;
     }
 
+    /* Round glass button in the top corner */
+    .corner {
+      position: absolute;
+      top: 16px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, .85);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .55);
+      -webkit-backdrop-filter: blur(16px) saturate(170%);
+      backdrop-filter: blur(16px) saturate(170%);
+      color: var(--ink);
+      box-shadow: inset 0 1px 0 #fff, 0 4px 14px rgba(40, 30, 15, .14);
+      transition: transform .45s var(--spring), background .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .corner:hover {
+      background: rgba(255, 255, 255, .9);
+      transform: scale(1.06);
+    }
+    .corner:active {
+      transform: scale(.92);
+      transition-duration: .1s;
+    }
+    .corner.right { right: 14px; }
+
     /* Soft drifting light behind the buttons, so the frosted glass has something to blur */
     .ambient {
       position: absolute;
-      inset: 330px 0 0;
+      inset: calc(330px + var(--top-gap)) 0 0;
       z-index: 0;
       pointer-events: none;
     }
@@ -94,7 +129,7 @@
     /* Photo that fades into the card */
     .hero {
       height: 318px;
-      margin: 0 -14px;
+      margin: var(--top-gap) -14px 0;
     }
     .hero img {
       position: absolute;
@@ -307,6 +342,10 @@
 
     /* Phones: the card becomes the whole screen */
     @media (max-width: 480px) {
+      /* env(safe-area-inset-top) is the height of the iPhone status bar / Dynamic Island area
+         (the page draws behind it because of viewport-fit=cover); it is 0 on phones without one. */
+      :root { --top-gap: max(36px, calc(env(safe-area-inset-top, 0px) + 8px)); }
+      .corner { top: max(14px, calc(env(safe-area-inset-top, 0px) + 6px)); }
       body { padding: 0; background: var(--card); }
       .card {
         min-height: 100vh;
@@ -324,6 +363,12 @@
 <body>
   <main class="card">
     <div class="ambient" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+    <a class="corner right" href="contact.vcf" type="text/vcard" aria-label="Save contact" title="Save contact">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="10" cy="8" r="4"/><path d="M2.5 20.5c.8-3.6 3.9-6 7.5-6 1.4 0 2.7.4 3.8 1"/><path d="M19 14v7M15.5 17.5h7"/>
+      </svg>
+    </a>
 
     <!-- ================= EDIT YOUR DETAILS HERE ================= -->
     <div class="hero">
@@ -398,16 +443,6 @@
         <button class="action" type="button" data-action="copy" data-copy="+44 7447 705513" data-done="Number copied" aria-label="Copy phone number" title="Copy">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5"/></svg>
         </button>
-      </li>
-
-      <li class="link">
-        <a href="contact.vcf" type="text/vcard">
-          <img src="photo.jpg" alt="" width="48" height="48">
-          <span class="text">
-            <span class="label">Save contact</span>
-            <span class="sub">Add me to your phone's contacts</span>
-          </span>
-        </a>
       </li>
     </ul>
     <!-- ================= END OF YOUR DETAILS ================= -->

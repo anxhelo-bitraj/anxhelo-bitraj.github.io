@@ -14,7 +14,7 @@ It's a single static HTML file served free by [GitHub Pages](https://pages.githu
 | `photo.jpg` | Profile photo (600×600). Also used as the favicon and the link-preview image |
 | `Angelo_Bitraj_CV.pdf` | My CV, opened by the CV button |
 | `icons/` | The GitHub, LinkedIn, CV, Outlook and WhatsApp icons |
-| `contact.vcf` | vCard 3.0 contact card with the photo embedded. The "Save contact" button downloads it |
+| `contact.vcf` | vCard 3.0 contact card with the photo embedded. The "Save contact" button (top right) downloads it |
 | `tools/make_vcard.py` | Rebuilds `contact.vcf` from the details at the top of the script |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are, without running Jekyll |
 
