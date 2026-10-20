@@ -6,16 +6,27 @@ My personal links page: GitHub, LinkedIn, CV, email, WhatsApp and a "Save contac
 
 It's a single static HTML file served free by [GitHub Pages](https://pages.github.com/) straight from the `main` branch of this repo. There's no build step, framework or server. Every push to `main` goes live in about a minute.
 
+The page adapts to the screen:
+
+- **Phones (portrait):** one column, kept clear of the notch / Dynamic Island.
+- **iPad portrait and tall screens:** one bigger, centred column.
+- **iPad landscape, laptops, desktops and phones held sideways:** photo on the left, links on the right.
+
+Sizes scale smoothly in between. The page is marked `noindex`, so search engines leave it out of their results and people reach it through the link or QR code.
+
 ## What's in here
 
 | File | What it is |
 | --- | --- |
 | `index.html` | The whole page: HTML, CSS and a little JS for the share/copy buttons |
-| `photo.jpg` | Profile photo (600×600). Also used as the favicon and the link-preview image |
+| `photo.jpg` | Profile photo (600×600). Used for the favicon, the link-preview image and the contact card |
+| `photo-cutout.webp` | The same photo with the background removed. This is the one shown on the page |
 | `Angelo_Bitraj_CV.pdf` | My CV, opened by the CV button |
 | `icons/` | The GitHub, LinkedIn, CV, Outlook and WhatsApp icons |
 | `contact.vcf` | vCard 3.0 contact card with the photo embedded. The "Save contact" button (top right) downloads it |
 | `tools/make_vcard.py` | Rebuilds `contact.vcf` from the details at the top of the script |
+| `tools/update-photo.sh` | Run after replacing `photo.jpg`: rebuilds the cut-out and the contact card |
+| `tools/cutout.swift` | Removes the photo background with macOS subject lifting (used by `update-photo.sh`) |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are, without running Jekyll |
 
 ## Changing a link
@@ -60,7 +71,13 @@ Copy one whole `<li class="link">…</li>` block inside the edit block, paste it
 
 ## Replacing the photo
 
-Save the new photo as `photo.jpg`, square and about 600×600. Then run `python3 tools/make_vcard.py` so the contact card picks it up, and commit and push as above.
+Save the new photo as `photo.jpg`: square, about 600×600, with your head near the top. A plain background cuts out best. Then run:
+
+```bash
+./tools/update-photo.sh
+```
+
+That cuts you out of the background into `photo-cutout.webp` and re-embeds the photo in `contact.vcf`. It needs macOS (for subject lifting) and ImageMagick (`brew install imagemagick`). Check the page, then commit and push as above.
 
 ## The QR code
 
